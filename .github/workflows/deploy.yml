@@ -9,6 +9,12 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Debug Secrets
+        run: |
+          echo "Host: ${{ secrets.SERVER_HOST }}"
+          echo "Username: ${{ secrets.SERVER_USERNAME }}"
+          echo "Key exists: $(if [ -n '${{ secrets.SSH_PRIVATE_KEY }}' ]; then echo 'yes'; else echo 'no'; fi)"
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -22,6 +28,7 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install
+        
 
       - name: build Project
         run: pnpm build
